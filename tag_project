@@ -5,9 +5,13 @@
 for project in $(./ensure_clean_git_checkouts "$@") ; do
 	(
 		cd "$GIT_DIR/$project"
+		echo "$project"
+		echo "$FULLVERSION"
+		echo "$RELEASEDIR"
 		git fetch --quiet "$GIT_REMOTE"
 		git checkout "${GIT_STABLE_BRANCH}"
 		git merge --ff-only "${GIT_REMOTE}/${GIT_STABLE_BRANCH}"
+		echo "doing echo"
 		echo "$FULLVERSION" > VERSION
 		git commit --quiet --all --message "Release $FULLVERSION"
 		if [ -x ./extras/changelog ] ; then
